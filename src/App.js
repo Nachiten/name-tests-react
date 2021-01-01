@@ -1,7 +1,22 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import './App.css';
 import Person from './Person/Person';
 
+const StyledButton = styled.button`
+   background-color: ${props => props.alt ? 'red' : 'green'};
+   color: black;
+   font: inherit;
+   border: 1px solid black;
+   padding: 8px;
+   cursor: pointer;
+   
+   &:hover{
+      background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
+      color:#555;
+   }
+
+`
 
 class App extends Component {
 
@@ -15,18 +30,6 @@ class App extends Component {
    }
 
    render() {
-      const style = {
-         backgroundColor: '#3F3',
-         color: 'black',
-         font: 'inherit',
-         border: '1px solid blue',
-         padding: '8px',
-         cursor: 'pointer',
-         ':hover':{
-            backgroundColor: 'lightgreen',
-            color:'white'
-         }
-      }
 
       let persons = null;
 
@@ -44,22 +47,16 @@ class App extends Component {
                })}
             </div>
          );
-
-         style.backgroundColor = '#F33';
-         style[':hover'] = {
-            backgroundColor: 'salmon',
-            color: 'white'
-         }
       }
 
       let classes = [];
       const cantidadPersonas = this.state.persons.length;
 
-      if (cantidadPersonas <= 2){
+      if (cantidadPersonas <= 2) {
          classes.push('red');
       }
 
-      if (cantidadPersonas <= 1){
+      if (cantidadPersonas <= 1) {
          classes.push('bold');
       }
 
@@ -67,12 +64,12 @@ class App extends Component {
          <div className="App">
             <h1 onCopy={this.seCopiaronDatosHandler}>Titulo de la pagina</h1>
             <p className={classes.join(' ')}>Esto funciona!!!</p>
-            <button style={style} onClick={this.esconderPersonaHandler}>
+            <StyledButton alt={this.state.mostrarPersonas} onClick={this.esconderPersonaHandler}>
                {
                   this.state.mostrarPersonas ?
                      <p>Ocultar nombres</p> : <p>Mostrar Nombres</p>
                }
-            </button>
+            </StyledButton>
             {persons}
          </div>
       );
