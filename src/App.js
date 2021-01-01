@@ -1,22 +1,6 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import './App.css';
 import Person from './Person/Person';
-
-const StyledButton = styled.button`
-   background-color: ${props => props.alt ? 'red' : 'green'};
-   color: black;
-   font: inherit;
-   border: 1px solid black;
-   padding: 8px;
-   cursor: pointer;
-   
-   &:hover{
-      background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
-      color:#555;
-   }
-
-`
 
 class App extends Component {
 
@@ -64,12 +48,12 @@ class App extends Component {
          <div className="App">
             <h1 onCopy={this.seCopiaronDatosHandler}>Titulo de la pagina</h1>
             <p className={classes.join(' ')}>Esto funciona!!!</p>
-            <StyledButton alt={this.state.mostrarPersonas} onClick={this.esconderPersonaHandler}>
+            <button className="button" onClick={this.esconderPersonaHandler}>
                {
                   this.state.mostrarPersonas ?
                      <p>Ocultar nombres</p> : <p>Mostrar Nombres</p>
                }
-            </StyledButton>
+            </button>
             {persons}
          </div>
       );
