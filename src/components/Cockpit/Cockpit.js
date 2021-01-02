@@ -21,12 +21,12 @@ const cockpit = (props) => {
 
     return (
         <div className={classes.Cockpit}>
-            <h1 onCopy={this.seCopiaronDatosHandler}>Titulo de la pagina</h1>
+            <h1 onCopy={this.seCopiaronDatosHandler}>{props.title}</h1>
             <p className={clasesAsignadas.join(' ')}>Esto funciona!!!</p>
             <button className={buttonClass.join(' ')} onClick={props.clicked}>
                 {
                     props.mostrarPersonas ?
-                        <p>Ocultar nombres</p> : <p>Mostrar Nombres</p>
+                        <p>Ocultar Nombres</p> : <p>Mostrar Nombres</p>
                 }
             </button>
         </div>
