@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import withClass from '../hoc/withClass';
+import Aux from '../hoc/Auxiliary';
+import AuthContext from '../context/auth-context';
 
 class App extends Component {
 
@@ -16,7 +19,9 @@ class App extends Component {
          { id: '2', name: 'Carlos', age: 32 },
          { id: '3', name: 'Noelia', age: 24 }
       ],
-      mostrarPersonas: false
+      mostrarPersonas: false,
+      changeCounter: 0,
+      authenticated: false
    }
 
    static getDerivedStateFromProps(props, state){
@@ -37,6 +42,11 @@ class App extends Component {
       console.log('[App.js] componentDidUpdate');
    }
 
+   loginHandler = () => {
+      this.setState({authenticated: true});
+   }
+
+
    render() {
 
       console.log('[App.js] render');
@@ -49,13 +59,19 @@ class App extends Component {
                <Persons
                   persons={this.state.persons}
                   clicked={this.eliminarPersonaHandler}
-                  changed={this.cambiarNombreHandler} />
+                  changed={this.cambiarNombreHandler}
+                  isAuthenticated={this.state.authenticated}
+                  />
             </div>
          );
       }
 
       return (
-         <div className={classes.App}>
+         <Aux>
+            <AuthContext.Provider 
+            value={{
+               authenticated: this.state.authenticated, 
+               login: this.loginHandler }}>
             <Cockpit
                mostrarPersonas={this.state.mostrarPersonas}
                persons={this.state.persons}
@@ -63,7 +79,8 @@ class App extends Component {
                title={this.props.appTitle}
             />
             {persons}
-         </div>
+            </AuthContext.Provider>
+         </Aux>
       );
    }
 
@@ -94,7 +111,12 @@ class App extends Component {
       const persons = [...this.state.persons];
       persons[personIndex] = person;
 
-      this.setState({ persons: persons });
+      this.setState((prevState, props) => {
+         return {
+         persons: persons, 
+         changeCounter: prevState.changeCounter + 1 
+         }
+      });
    }
 
    seCopiaronDatosHandler = () => {
@@ -102,4 +124,4 @@ class App extends Component {
    }
 }
 
-export default App;
+export default withClass(App, classes.App);
